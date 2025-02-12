@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:storage/constants.dart';
+import 'package:storage/logic/products/products_cubit.dart';
 import 'package:storage/screens/export_screen.dart';
 import 'package:storage/screens/imports_screen.dart';
 import 'package:storage/screens/storge_screen.dart';
@@ -19,9 +21,9 @@ class HomeScreen extends StatelessWidget {
             width: 230,
             height: 100,
             padding: const EdgeInsets.all(16),
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               border: Border(bottom: BorderSide(color: kLightColor, width: 2)),
-              borderRadius: const BorderRadius.all(Radius.circular(20)),
+              borderRadius: BorderRadius.all(Radius.circular(20)),
             ),
             child: Center(
               child: Row(
@@ -43,15 +45,18 @@ class HomeScreen extends StatelessWidget {
             ),
           ),
           const Spacer(flex: 6),
-          const Row(
+          Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               CategoryWidget(
                 tittle: 'الصادرات',
                 icon: 'assets/images/exports.png',
-                screen: ExportScreen(),
+                screen: BlocProvider(
+                  create: (context) => ProductsCubit(),
+                  child: const ExportScreen(),
+                ),
               ),
-              CategoryWidget(
+              const CategoryWidget(
                 tittle: 'الواردات',
                 icon: 'assets/images/imports.png',
                 screen: ImportsScreen(),
@@ -59,7 +64,10 @@ class HomeScreen extends StatelessWidget {
               CategoryWidget(
                 tittle: 'المخزن',
                 icon: 'assets/images/storage.png',
-                screen: StorgeScreen(),
+                screen: BlocProvider(
+                  create: (context) => ProductsCubit(),
+                  child: const StorgeScreen(),
+                ),
               ),
             ],
           ),
